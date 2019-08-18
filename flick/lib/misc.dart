@@ -1,0 +1,18 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// © Cosmos Software | Ali Yigit Bireroglu                                                                                                           /
+// All material used in the making of this code, project, program, application, software et cetera (the "Intellectual Property")                     /
+// belongs completely and solely to Ali Yigit Bireroglu. This includes but is not limited to the source code, the multimedia and                     /
+// other asset files. If you were granted this Intellectual Property for personal use, you are obligated to include this copyright                   /
+// text at all times.                                                                                                                                /
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//@formatter:off
+import 'dart:ui';
+
+import 'package:flutter/widgets.dart';
+
+import 'Export.dart';
+
+typedef MoveCallback = void Function(Offset offset);
+typedef DragCallback = void Function(dynamic dragDetails);
+typedef FlickCallback = void Function(Offset offset);
