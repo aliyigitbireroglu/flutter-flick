@@ -16,7 +16,6 @@ An extensive flick tool/widget for Flutter that allows very flexible flick manag
 <img src="https://img.shields.io/badge/Cosmos%20Software-Love%20Code-red"/>
 <br>
 
-
 [![Pub](https://img.shields.io/pub/v/flick?color=g)](https://pub.dev/packages/flick)
 [![License](https://img.shields.io/github/license/aliyigitbireroglu/flutter-flick?color=blue)](https://github.com/aliyigitbireroglu/flutter-flick/blob/master/LICENSE)
 
