@@ -3,6 +3,9 @@
 An extensive flick tool/widget for Flutter that allows very flexible flick management for your widgets. It is designed to work flawlessly with 
 [snap](https://pub.dev/packages/snap) but it can be used as a standalone package too. 
 
+**It is highly recommended to read the documentation and run the example project on a real device to fully understand and inspect the full range
+ of capabilities.**
+
 [Media](#media) | [Description](#description) | [How-to-Use](#howtouse)
 
 <img src="https://img.shields.io/badge/Cosmos%20Software-Love%20Code-red"/>
@@ -11,6 +14,11 @@ An extensive flick tool/widget for Flutter that allows very flexible flick manag
 
 [![Pub](https://img.shields.io/pub/v/flick?color=g)](https://pub.dev/packages/flick)
 [![License](https://img.shields.io/github/license/aliyigitbireroglu/flutter-flick?color=blue)](https://github.com/aliyigitbireroglu/flutter-flick/blob/master/LICENSE)
+
+## Notice
+* **[flick](https://pub.dev/packages/flick) works as intended on actual devices even if it might appear to fail rarely on simulators. Don't be 
+discouraged!**
+* * *
 
 
 <a name="media"></a>
@@ -77,10 +85,6 @@ In this excerpt, the view is the normalBox widget and it is unconstrained which 
 the runtime so the useCache value for the FlickController is set to true. The sensitivity is 0.1 which means a very strong flick will be required 
 to move the view a large distance.
 
-* * *
-##It is highly recommended to read the documentation and the example project.
-
-<br>
 
 ## Notes
 I started using and learning Flutter only some weeks ago so this package might have some parts that don't make sense, 
