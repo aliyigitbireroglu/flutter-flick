@@ -5,8 +5,8 @@
 // other asset files. If you were granted this Intellectual Property for personal use, you are obligated to include this copyright                   /
 // text at all times.                                                                                                                                /
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 //@formatter:off
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,9 +40,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
-        body: FlickController(normalBox(), true, view, sensitivity: 0.1));
+    return Scaffold(appBar: AppBar(title: Text(widget.title)), body: FlickController(normalBox(), true, view, sensitivity: 0.1));
   }
 }
 
@@ -56,14 +54,6 @@ Widget normalBox() {
           padding: const EdgeInsets.all(5),
           child: Container(
               constraints: BoxConstraints.expand(),
-              decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius:
-                      const BorderRadius.all(const Radius.circular(10.0))),
-              child: Center(
-                  child: Text("Flick",
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25))))));
+              decoration: BoxDecoration(color: Colors.redAccent, borderRadius: const BorderRadius.all(const Radius.circular(10.0))),
+              child: Center(child: Text("Flick", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25))))));
 }

@@ -5,13 +5,11 @@
 // other asset files. If you were granted this Intellectual Property for personal use, you are obligated to include this copyright                   /
 // text at all times.                                                                                                                                /
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 //@formatter:off
+
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
-
-import 'Export.dart';
 
 typedef MoveCallback = void Function(Offset offset);
 typedef DragCallback = void Function(dynamic dragDetails);

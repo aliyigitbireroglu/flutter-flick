@@ -5,8 +5,8 @@
 // other asset files. If you were granted this Intellectual Property for personal use, you are obligated to include this copyright                   /
 // text at all times.                                                                                                                                /
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 //@formatter:off
+
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -63,7 +63,7 @@ class FlickController extends StatefulWidget {
   ///The callback for when the drag ends.
   final DragCallback onDragEnd;
 
-  ///The callback for when the view snaps.
+  ///The callback for when the view flicks.
   final FlickCallback onFlick;
 
   const FlickController(this.uiChild, this.useCache, this.viewKey,
@@ -85,25 +85,12 @@ class FlickController extends StatefulWidget {
 
   @override
   FlickControllerState createState() {
-    return FlickControllerState(
-        useCache,
-        viewKey,
-        boundKey,
-        constraintsMin,
-        constraintsMax,
-        flexibilityMin,
-        flexibilityMax,
-        sensitivity,
-        onMove,
-        onDragStart,
-        onDragUpdate,
-        onDragEnd,
-        onFlick);
+    return FlickControllerState(useCache, viewKey, boundKey, constraintsMin, constraintsMax, flexibilityMin, flexibilityMax, sensitivity, onMove,
+        onDragStart, onDragUpdate, onDragEnd, onFlick);
   }
 }
 
-class FlickControllerState extends State<FlickController>
-    with SingleTickerProviderStateMixin {
+class FlickControllerState extends State<FlickController> with SingleTickerProviderStateMixin {
   Widget uiChild;
   final bool useCache;
   final GlobalKey viewKey;
@@ -139,26 +126,14 @@ class FlickControllerState extends State<FlickController>
   ///The [AnimationController] used to move the view during flicking.
   AnimationController animationController;
   Animation<Offset> animation;
-  final ValueNotifier<Offset> deltaNotifier =
-      ValueNotifier<Offset>(Offset.zero);
+
+  final ValueNotifier<Offset> deltaNotifier = ValueNotifier<Offset>(Offset.zero);
 
   ///Use this value to determine the depth of debug logging that is actually only here for myself and the Swiss scientists.
   int _debugLevel = 0;
 
-  FlickControllerState(
-      this.useCache,
-      this.viewKey,
-      this.boundKey,
-      this.constraintsMin,
-      this.constraintsMax,
-      this.flexibilityMin,
-      this.flexibilityMax,
-      this.sensitivity,
-      this.onMove,
-      this.onDragStart,
-      this.onDragUpdate,
-      this.onDragEnd,
-      this.onFlick);
+  FlickControllerState(this.useCache, this.viewKey, this.boundKey, this.constraintsMin, this.constraintsMax, this.flexibilityMin, this.flexibilityMax,
+      this.sensitivity, this.onMove, this.onDragStart, this.onDragUpdate, this.onDragEnd, this.onFlick);
 
   @override
   void initState() {
@@ -166,19 +141,13 @@ class FlickControllerState extends State<FlickController>
 
     if (useCache) uiChild = wrapper();
 
-    animationController = AnimationController(
-        vsync: this,
-        duration: const Duration(milliseconds: 333),
-        lowerBound: 0,
-        upperBound: 1)
+    animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 333), lowerBound: 0, upperBound: 1)
       ..addListener(() {
         deltaNotifier.value = animation.value;
         if (onMove != null) onMove(deltaNotifier.value);
       })
       ..addStatusListener((_) {});
-    animation = Tween(begin: Offset.zero, end: Offset.zero).animate(
-        CurvedAnimation(
-            parent: animationController, curve: Curves.fastOutSlowIn));
+    animation = Tween(begin: Offset.zero, end: Offset.zero).animate(CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn));
 
     checkViewAndBound();
   }
@@ -210,8 +179,7 @@ class FlickControllerState extends State<FlickController>
   void setView() {
     try {
       if (viewKey.currentContext == null) return;
-      if (viewRenderBox == null)
-        viewRenderBox = viewKey.currentContext.findRenderObject();
+      if (viewRenderBox == null) viewRenderBox = viewKey.currentContext.findRenderObject();
 
       if (viewRenderBox != null) {
         if (viewRenderBox.hasSize) {
@@ -219,68 +187,49 @@ class FlickControllerState extends State<FlickController>
           if (viewHeight == -1) viewHeight = viewRenderBox.size.height;
         }
 
-        if (viewOrigin == null)
-          viewOrigin = viewRenderBox.localToGlobal(Offset.zero);
+        if (viewOrigin == null) viewOrigin = viewRenderBox.localToGlobal(Offset.zero);
       }
     } catch (_) {}
   }
 
-  bool get viewIsSet =>
-      !(viewWidth == -1 || viewHeight == -1 || viewOrigin == null);
+  bool get viewIsSet => !(viewWidth == -1 || viewHeight == -1 || viewOrigin == null);
 
   void setBound() {
     if (boundKey == null) return;
     try {
       if (boundKey.currentContext == null) return;
-      if (boundRenderBox == null)
-        boundRenderBox = boundKey.currentContext.findRenderObject();
+      if (boundRenderBox == null) boundRenderBox = boundKey.currentContext.findRenderObject();
 
       if (boundRenderBox != null) {
         if (boundRenderBox.hasSize) {
-          if (boundWidth == -1)
-            boundWidth = boundRenderBox.size.width + widget.customBoundWidth;
-          if (boundHeight == -1)
-            boundHeight = boundRenderBox.size.height + widget.customBoundHeight;
+          if (boundWidth == -1) boundWidth = boundRenderBox.size.width + widget.customBoundWidth;
+          if (boundHeight == -1) boundHeight = boundRenderBox.size.height + widget.customBoundHeight;
 
           if (boundWidth != -1 && boundHeight != -1) normaliseConstraints();
         }
       }
-      if (boundOrigin == null)
-        boundOrigin = boundRenderBox.localToGlobal(Offset.zero);
+      if (boundOrigin == null) boundOrigin = boundRenderBox.localToGlobal(Offset.zero);
     } catch (_) {}
   }
 
-  bool get boundIsSet =>
-      !(boundWidth == -1 || boundHeight == -1 || boundOrigin == null) ||
-      boundKey == null;
+  bool get boundIsSet => !(boundWidth == -1 || boundHeight == -1 || boundOrigin == null) || boundKey == null;
 
   void checkViewOrigin() {
-    if (viewOrigin !=
-        viewRenderBox.localToGlobal(Offset.zero) - deltaNotifier.value)
-      viewOrigin =
-          viewRenderBox.localToGlobal(Offset.zero) - deltaNotifier.value;
+    if (viewOrigin != viewRenderBox.localToGlobal(Offset.zero) - deltaNotifier.value)
+      viewOrigin = viewRenderBox.localToGlobal(Offset.zero) - deltaNotifier.value;
   }
 
   void checkBoundOrigin() {
     if (boundKey == null) return;
-    if (boundOrigin != boundRenderBox.localToGlobal(Offset.zero))
-      boundOrigin = boundRenderBox.localToGlobal(Offset.zero);
+    if (boundOrigin != boundRenderBox.localToGlobal(Offset.zero)) boundOrigin = boundRenderBox.localToGlobal(Offset.zero);
   }
 
   void normaliseConstraints() {
     if (boundKey == null) return;
-    double constraintsMinX = constraintsMin.dx == double.negativeInfinity
-        ? double.negativeInfinity
-        : boundWidth * constraintsMin.dx;
-    double constraintsMinY = constraintsMin.dy == double.negativeInfinity
-        ? double.negativeInfinity
-        : boundHeight * constraintsMin.dy;
-    double constraintsMaxX = constraintsMax.dx == double.infinity
-        ? double.infinity
-        : boundWidth * constraintsMax.dx;
-    double constraintsMaxY = constraintsMax.dy == double.infinity
-        ? double.infinity
-        : boundHeight * constraintsMax.dy;
+    double constraintsMinX = constraintsMin.dx == double.negativeInfinity ? double.negativeInfinity : boundWidth * constraintsMin.dx;
+    double constraintsMinY = constraintsMin.dy == double.negativeInfinity ? double.negativeInfinity : boundHeight * constraintsMin.dy;
+    double constraintsMaxX = constraintsMax.dx == double.infinity ? double.infinity : boundWidth * constraintsMax.dx;
+    double constraintsMaxY = constraintsMax.dy == double.infinity ? double.infinity : boundHeight * constraintsMax.dy;
     constraintsMin = Offset(constraintsMinX, constraintsMinY);
     constraintsMax = Offset(constraintsMaxX, constraintsMaxY);
   }
@@ -322,52 +271,27 @@ class FlickControllerState extends State<FlickController>
   }
 
   Offset getFlickTarget(dynamic dragEndDetails) {
-    Offset _delta = delta +
-        Offset(dragEndDetails.velocity.pixelsPerSecond.dx * sensitivity,
-            dragEndDetails.velocity.pixelsPerSecond.dy * sensitivity);
+    Offset _delta =
+        delta + Offset(dragEndDetails.velocity.pixelsPerSecond.dx * sensitivity, dragEndDetails.velocity.pixelsPerSecond.dy * sensitivity);
 
     if (boundKey == null) return _delta;
 
     normalisedConstraintsMin = constraintsMin - viewOrigin + boundOrigin;
-    normalisedConstraintsMax = constraintsMax -
-        viewOrigin +
-        boundOrigin -
-        Offset(viewWidth, viewHeight);
+    normalisedConstraintsMax = constraintsMax - viewOrigin + boundOrigin - Offset(viewWidth, viewHeight);
     if (_delta.dx < normalisedConstraintsMin.dx)
-      _delta = Offset(
-          normalisedConstraintsMin.dx -
-              pow((_delta.dx - normalisedConstraintsMin.dx).abs(),
-                  flexibilityMin.dx) +
-              1.0,
-          _delta.dy);
+      _delta = Offset(normalisedConstraintsMin.dx - pow((_delta.dx - normalisedConstraintsMin.dx).abs(), flexibilityMin.dx) + 1.0, _delta.dy);
     if (_delta.dx > normalisedConstraintsMax.dx)
-      _delta = Offset(
-          normalisedConstraintsMax.dx +
-              pow((_delta.dx - normalisedConstraintsMax.dx).abs(),
-                  flexibilityMax.dx) -
-              1.0,
-          _delta.dy);
+      _delta = Offset(normalisedConstraintsMax.dx + pow((_delta.dx - normalisedConstraintsMax.dx).abs(), flexibilityMax.dx) - 1.0, _delta.dy);
     if (_delta.dy < normalisedConstraintsMin.dy)
-      _delta = Offset(
-          _delta.dx,
-          normalisedConstraintsMin.dy -
-              pow((_delta.dy - normalisedConstraintsMin.dy).abs(),
-                  flexibilityMin.dy) +
-              1.0);
+      _delta = Offset(_delta.dx, normalisedConstraintsMin.dy - pow((_delta.dy - normalisedConstraintsMin.dy).abs(), flexibilityMin.dy) + 1.0);
     if (_delta.dy > normalisedConstraintsMax.dy)
-      _delta = Offset(
-          _delta.dx,
-          normalisedConstraintsMax.dy +
-              pow((_delta.dy - normalisedConstraintsMax.dy).abs(),
-                  flexibilityMax.dy) -
-              1.0);
+      _delta = Offset(_delta.dx, normalisedConstraintsMax.dy + pow((_delta.dy - normalisedConstraintsMax.dy).abs(), flexibilityMax.dy) - 1.0);
 
     return _delta;
   }
 
   Future move(Offset flickTarget) async {
-    animation = Tween(begin: deltaNotifier.value, end: flickTarget).animate(
-        CurvedAnimation(parent: animationController, curve: Curves.decelerate));
+    animation = Tween(begin: deltaNotifier.value, end: flickTarget).animate(CurvedAnimation(parent: animationController, curve: Curves.decelerate));
     animationController.forward(from: 0);
     await Future.delayed(Duration(milliseconds: 333));
     return;
@@ -402,8 +326,7 @@ class FlickControllerState extends State<FlickController>
     return ValueListenableBuilder(
         child: useCache ? uiChild : null,
         builder: (BuildContext context, Offset delta, Widget cachedChild) {
-          return Transform.translate(
-              offset: delta, child: useCache ? cachedChild : wrapper());
+          return Transform.translate(offset: delta, child: useCache ? cachedChild : wrapper());
         },
         valueListenable: deltaNotifier);
   }
