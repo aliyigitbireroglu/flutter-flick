@@ -37,7 +37,7 @@ Watch on **Youtube**:
 
 [v0.1.0](https://youtu.be/RJvb7YKIO6g)
 <br><br>
-<img src="https://www.cosmossoftware.coffee/Common/Portfolio/GIFs/FlutterFlick.gif" height="450"/>
+<img src="https://www.cosmossoftware.coffee/Common/Portfolio/GIFs/FlutterFlick.gif" max-height="450"/>
 <br><br>
 
 
