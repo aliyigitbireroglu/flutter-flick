@@ -27,7 +27,7 @@ class FlickController extends StatefulWidget {
   ///The [GlobalKey] of the view.
   final GlobalKey viewKey;
 
-  ///The [GlobalKey] of the bound.
+  ///The [GlobalKey] of the bound. If set, [constraintsMin], [constraintsMax], [flexibilityMin] and [flexibilityMax] can't be null.
   final GlobalKey boundKey;
 
   ///Use this value to set the lower left boundary of the movement. [boundKey] can't be null.
