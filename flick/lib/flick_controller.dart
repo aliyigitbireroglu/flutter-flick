@@ -66,27 +66,43 @@ class FlickController extends StatefulWidget {
   ///The callback for when the view flicks.
   final FlickCallback onFlick;
 
-  const FlickController(this.uiChild, this.useCache, this.viewKey,
-      {Key key,
-      this.boundKey,
-      this.constraintsMin,
-      this.constraintsMax,
-      this.flexibilityMin,
-      this.flexibilityMax,
-      this.customBoundWidth: 0,
-      this.customBoundHeight: 0,
-      this.sensitivity: 0.05,
-      this.onMove,
-      this.onDragStart,
-      this.onDragUpdate,
-      this.onDragEnd,
-      this.onFlick})
-      : super(key: key);
+  const FlickController(
+    this.uiChild,
+    this.useCache,
+    this.viewKey, {
+    Key key,
+    this.boundKey,
+    this.constraintsMin,
+    this.constraintsMax,
+    this.flexibilityMin,
+    this.flexibilityMax,
+    this.customBoundWidth: 0,
+    this.customBoundHeight: 0,
+    this.sensitivity: 0.05,
+    this.onMove,
+    this.onDragStart,
+    this.onDragUpdate,
+    this.onDragEnd,
+    this.onFlick,
+  }) : super(key: key);
 
   @override
   FlickControllerState createState() {
-    return FlickControllerState(useCache, viewKey, boundKey, constraintsMin, constraintsMax, flexibilityMin, flexibilityMax, sensitivity, onMove,
-        onDragStart, onDragUpdate, onDragEnd, onFlick);
+    return FlickControllerState(
+      useCache,
+      viewKey,
+      boundKey,
+      constraintsMin,
+      constraintsMax,
+      flexibilityMin,
+      flexibilityMax,
+      sensitivity,
+      onMove,
+      onDragStart,
+      onDragUpdate,
+      onDragEnd,
+      onFlick,
+    );
   }
 }
 
@@ -132,8 +148,21 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
   ///Use this value to determine the depth of debug logging that is actually only here for myself and the Swiss scientists.
   int _debugLevel = 0;
 
-  FlickControllerState(this.useCache, this.viewKey, this.boundKey, this.constraintsMin, this.constraintsMax, this.flexibilityMin, this.flexibilityMax,
-      this.sensitivity, this.onMove, this.onDragStart, this.onDragUpdate, this.onDragEnd, this.onFlick);
+  FlickControllerState(
+    this.useCache,
+    this.viewKey,
+    this.boundKey,
+    this.constraintsMin,
+    this.constraintsMax,
+    this.flexibilityMin,
+    this.flexibilityMax,
+    this.sensitivity,
+    this.onMove,
+    this.onDragStart,
+    this.onDragUpdate,
+    this.onDragEnd,
+    this.onFlick,
+  );
 
   @override
   void initState() {
@@ -141,7 +170,12 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
 
     if (useCache) uiChild = wrapper();
 
-    animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 333), lowerBound: 0, upperBound: 1)
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 333),
+      lowerBound: 0,
+      upperBound: 1,
+    )
       ..addListener(() {
         deltaNotifier.value = animation.value;
         if (onMove != null) onMove(deltaNotifier.value);
@@ -293,7 +327,7 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
   Future move(Offset flickTarget) async {
     animation = Tween(begin: deltaNotifier.value, end: flickTarget).animate(CurvedAnimation(parent: animationController, curve: Curves.decelerate));
     animationController.forward(from: 0);
-    await Future.delayed(Duration(milliseconds: 333));
+    await Future.delayed(const Duration(milliseconds: 333));
     return;
   }
 
@@ -309,14 +343,15 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
 
   Widget wrapper() {
     return GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onVerticalDragStart: onDragStart != null ? onDragStart : null,
-        onVerticalDragUpdate: onDragUpdate != null ? onDragUpdate : null,
-        onVerticalDragEnd: endDrag,
-        onHorizontalDragStart: onDragStart != null ? onDragStart : null,
-        onHorizontalDragUpdate: onDragUpdate != null ? onDragUpdate : null,
-        onHorizontalDragEnd: endDrag,
-        child: widget.uiChild);
+      behavior: HitTestBehavior.translucent,
+      onVerticalDragStart: onDragStart != null ? onDragStart : null,
+      onVerticalDragUpdate: onDragUpdate != null ? onDragUpdate : null,
+      onVerticalDragEnd: endDrag,
+      onHorizontalDragStart: onDragStart != null ? onDragStart : null,
+      onHorizontalDragUpdate: onDragUpdate != null ? onDragUpdate : null,
+      onHorizontalDragEnd: endDrag,
+      child: widget.uiChild,
+    );
   }
 
   @override
@@ -324,10 +359,14 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
     checkViewAndBound();
 
     return ValueListenableBuilder(
-        child: useCache ? uiChild : null,
-        builder: (BuildContext context, Offset delta, Widget cachedChild) {
-          return Transform.translate(offset: delta, child: useCache ? cachedChild : wrapper());
-        },
-        valueListenable: deltaNotifier);
+      child: useCache ? uiChild : null,
+      builder: (BuildContext context, Offset delta, Widget cachedChild) {
+        return Transform.translate(
+          offset: delta,
+          child: useCache ? cachedChild : wrapper(),
+        );
+      },
+      valueListenable: deltaNotifier,
+    );
   }
 }
