@@ -9,7 +9,6 @@
 
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'Export.dart';
@@ -181,20 +180,29 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
         if (onMove != null) onMove(deltaNotifier.value);
       })
       ..addStatusListener((_) {});
-    animation = Tween(begin: Offset.zero, end: Offset.zero).animate(CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn));
+    animation = Tween(
+      begin: Offset.zero,
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.fastOutSlowIn,
+      ),
+    );
 
     checkViewAndBound();
   }
 
   @override
   void dispose() {
+    reset();
+
     animationController.removeListener(() {
       deltaNotifier.value = animation.value;
+      if (onMove != null) onMove(deltaNotifier.value);
     });
     animationController.removeStatusListener((_) {});
     animationController.dispose();
-
-    reset();
 
     super.dispose();
   }
@@ -230,6 +238,7 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
 
   void setBound() {
     if (boundKey == null) return;
+
     try {
       if (boundKey.currentContext == null) return;
       if (boundRenderBox == null) boundRenderBox = boundKey.currentContext.findRenderObject();
@@ -255,6 +264,7 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
 
   void checkBoundOrigin() {
     if (boundKey == null) return;
+
     if (boundOrigin != boundRenderBox.localToGlobal(Offset.zero)) boundOrigin = boundRenderBox.localToGlobal(Offset.zero);
   }
 
@@ -325,7 +335,13 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
   }
 
   Future move(Offset flickTarget) async {
-    animation = Tween(begin: deltaNotifier.value, end: flickTarget).animate(CurvedAnimation(parent: animationController, curve: Curves.decelerate));
+    animation = Tween(
+      begin: deltaNotifier.value,
+      end: flickTarget,
+    ).animate(CurvedAnimation(
+      parent: animationController,
+      curve: Curves.decelerate,
+    ));
     animationController.forward(from: 0);
     await Future.delayed(const Duration(milliseconds: 333));
     return;
@@ -339,6 +355,17 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
   void reset() {
     delta = Offset.zero;
     deltaNotifier.value = Offset.zero;
+  }
+
+  void softReset(Offset _constraintsMin, Offset _constraintsMax) {
+    constraintsMin = _constraintsMin;
+    constraintsMax = _constraintsMax;
+    viewHeight = -1;
+    viewWidth = -1;
+    viewOrigin = null;
+    boundHeight = -1;
+    boundWidth = -1;
+    boundOrigin = null;
   }
 
   Widget wrapper() {

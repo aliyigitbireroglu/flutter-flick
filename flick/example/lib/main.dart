@@ -7,9 +7,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //@formatter:off
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flick/flick.dart';
 
 GlobalKey view = GlobalKey();
@@ -37,45 +36,46 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Widget box() {
+    return Container(
+      key: view,
+      width: 200,
+      height: 200,
+      color: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: const BoxDecoration(
+            color: Colors.redAccent,
+            borderRadius: const BorderRadius.all(const Radius.circular(10.0)),
+          ),
+          child: Center(
+            child: Text(
+              "Flick",
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: FlickController(
-        normalBox(),
+        box(),
         true,
         view,
         sensitivity: 0.1,
       ),
     );
   }
-}
-
-Widget normalBox() {
-  return Container(
-    key: view,
-    width: 200,
-    height: 200,
-    color: Colors.transparent,
-    child: Padding(
-      padding: const EdgeInsets.all(5),
-      child: Container(
-        constraints: BoxConstraints.expand(),
-        decoration: const BoxDecoration(
-          color: Colors.redAccent,
-          borderRadius: const BorderRadius.all(const Radius.circular(10.0)),
-        ),
-        child: Center(
-          child: Text(
-            "Flick",
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
 }
