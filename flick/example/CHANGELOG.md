@@ -4,6 +4,8 @@
 
 * Improved code style.
 
+* [1.0.1+1] Updated README.
+
 ## [1.0.0] - 23.08.2019
 
 * Minor changes.
