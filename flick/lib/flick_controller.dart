@@ -254,8 +254,7 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
   bool get boundIsSet => !(boundWidth == -1 || boundHeight == -1 || boundOrigin == null) || boundKey == null;
 
   void checkViewOrigin() {
-    if (viewOrigin != viewRenderBox.localToGlobal(Offset.zero) - deltaNotifier.value)
-      viewOrigin = viewRenderBox.localToGlobal(Offset.zero) - deltaNotifier.value;
+    if (viewOrigin != viewRenderBox.localToGlobal(Offset.zero) - deltaNotifier.value) viewOrigin = viewRenderBox.localToGlobal(Offset.zero) - deltaNotifier.value;
   }
 
   void checkBoundOrigin() {
@@ -311,21 +310,16 @@ class FlickControllerState extends State<FlickController> with SingleTickerProvi
   }
 
   Offset getFlickTarget(dynamic dragEndDetails) {
-    Offset _delta =
-        delta + Offset(dragEndDetails.velocity.pixelsPerSecond.dx * sensitivity, dragEndDetails.velocity.pixelsPerSecond.dy * sensitivity);
+    Offset _delta = delta + Offset(dragEndDetails.velocity.pixelsPerSecond.dx * sensitivity, dragEndDetails.velocity.pixelsPerSecond.dy * sensitivity);
 
     if (boundKey == null) return _delta;
 
     normalisedConstraintsMin = constraintsMin - viewOrigin + boundOrigin;
     normalisedConstraintsMax = constraintsMax - viewOrigin + boundOrigin - Offset(viewWidth, viewHeight);
-    if (_delta.dx < normalisedConstraintsMin.dx)
-      _delta = Offset(normalisedConstraintsMin.dx - pow((_delta.dx - normalisedConstraintsMin.dx).abs(), flexibilityMin.dx) + 1.0, _delta.dy);
-    if (_delta.dx > normalisedConstraintsMax.dx)
-      _delta = Offset(normalisedConstraintsMax.dx + pow((_delta.dx - normalisedConstraintsMax.dx).abs(), flexibilityMax.dx) - 1.0, _delta.dy);
-    if (_delta.dy < normalisedConstraintsMin.dy)
-      _delta = Offset(_delta.dx, normalisedConstraintsMin.dy - pow((_delta.dy - normalisedConstraintsMin.dy).abs(), flexibilityMin.dy) + 1.0);
-    if (_delta.dy > normalisedConstraintsMax.dy)
-      _delta = Offset(_delta.dx, normalisedConstraintsMax.dy + pow((_delta.dy - normalisedConstraintsMax.dy).abs(), flexibilityMax.dy) - 1.0);
+    if (_delta.dx < normalisedConstraintsMin.dx) _delta = Offset(normalisedConstraintsMin.dx - pow((_delta.dx - normalisedConstraintsMin.dx).abs(), flexibilityMin.dx) + 1.0, _delta.dy);
+    if (_delta.dx > normalisedConstraintsMax.dx) _delta = Offset(normalisedConstraintsMax.dx + pow((_delta.dx - normalisedConstraintsMax.dx).abs(), flexibilityMax.dx) - 1.0, _delta.dy);
+    if (_delta.dy < normalisedConstraintsMin.dy) _delta = Offset(_delta.dx, normalisedConstraintsMin.dy - pow((_delta.dy - normalisedConstraintsMin.dy).abs(), flexibilityMin.dy) + 1.0);
+    if (_delta.dy > normalisedConstraintsMax.dy) _delta = Offset(_delta.dx, normalisedConstraintsMax.dy + pow((_delta.dy - normalisedConstraintsMax.dy).abs(), flexibilityMax.dy) - 1.0);
 
     return _delta;
   }

@@ -1,14 +1,14 @@
-name: flick
-description: An extensive flick tool/widget for Flutter that allows very flexible flick management for your widgets.
-version: 1.0.2
-author: Ali Yigit Bireroglu <aliyigitbireroglu@gmail.com>
-repository: https://github.com/aliyigitbireroglu/flutter-flick
-homepage: https://www.cosmossoftware.coffee
+name            : flick
+description     : An extensive flick tool/widget for Flutter that allows very flexible flick management for your widgets.
+version         : 1.0.3
+author          : Ali Yigit Bireroglu <aliyigitbireroglu@gmail.com>
+repository      : https://github.com/aliyigitbireroglu/flutter-flick
+homepage        : https://www.cosmossoftware.coffee
 
-environment:
+environment     :
   sdk: ">=2.1.0 <3.0.0"
 
-dependencies:
+dependencies    :
   flutter:
     sdk: flutter
 
@@ -16,4 +16,4 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-flutter:
+flutter         :
