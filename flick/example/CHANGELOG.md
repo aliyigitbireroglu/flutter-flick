@@ -1,3 +1,7 @@
+## [1.0.4] - 21.11.2019
+
+* Regular maintenance.
+
 ## [1.0.3] - 21.11.2019
 
 * Minor changes.
