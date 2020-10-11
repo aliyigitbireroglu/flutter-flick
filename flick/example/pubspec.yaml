@@ -1,6 +1,6 @@
 name            : example
 description     : Example Project for flick.
-version         : 1.0.4
+version         : 1.0.4+1
 author          : Ali Yigit Bireroglu <aliyigitbireroglu@gmail.com>
 repository      : https://github.com/aliyigitbireroglu/flutter-flick
 homepage        : https://www.cosmossoftware.coffee
